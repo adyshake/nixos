@@ -122,4 +122,21 @@
     extraConfig.credential.credentialStore = "cache";
   };
 
+  # Configure Konsole terminal emulator
+  programs.konsole = {
+    enable = true;
+    defaultProfile = "zsh-profile";
+    profiles = {
+      zsh-profile = {
+        name = "ZSH Profile";
+        command = "${pkgs.zsh}/bin/zsh";
+        colorScheme = "Linux";
+        font = {
+          name = "Monospace";
+          size = 11;
+        };
+      };
+    };
+  };
+
 }
