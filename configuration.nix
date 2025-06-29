@@ -119,7 +119,6 @@ in
   vscode
   expect
   fzf
-  spawn
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
