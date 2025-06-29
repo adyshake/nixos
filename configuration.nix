@@ -109,6 +109,7 @@ in
   #  wget
   vim
   git
+  git-credential-manager
   vscode
   expect
   fzf

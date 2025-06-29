@@ -79,6 +79,9 @@
     enable = true;
     userName = "Adnan Shaikh";
     userEmail = "adnan.shaikh1806@gmail.com";
+    extraConfig.credential.helper = "manager";
+    extraConfig.credential."https://github.com".username = "adyshake";
+    extraConfig.credential.credentialStore = "cache";
   };
 
 }
