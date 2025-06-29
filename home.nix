@@ -75,6 +75,25 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  # Enable ZSH in home-manager
+  programs.zsh = {
+    enable = true;
+    shellAliases = {
+      # Git aliases
+      gs = "git status";
+      ga = "git add";
+      gd = "git diff";
+      gdn = "git diff --name-only";
+      gl = "git log";
+      gp = "git pull --rebase";
+      glo = "git fetch && git log HEAD..origin";
+      gca = "git commit --amend";
+      
+      # Run authentication script for Amazon
+      amznauth = "./amazon_login.sh";
+    };
+  };
+
   programs.git = {
     enable = true;
     userName = "Adnan Shaikh";

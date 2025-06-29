@@ -89,6 +89,7 @@ in
   users.users.adnan = {
     isNormalUser = true;
     description = "Adnan Shaikh";
+    shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       kdePackages.kate
@@ -98,6 +99,9 @@ in
 
   # Install firefox.
   programs.firefox.enable = true;
+
+  # Enable ZSH system-wide
+  programs.zsh.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
