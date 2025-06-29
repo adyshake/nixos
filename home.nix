@@ -75,6 +75,31 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  programs.konsole = {
+    enable = true;
+  
+    defaultProfile = "Personal";
+
+    profiles = {
+      "Personal" = {
+        colorScheme = "Transparent";
+        command = "${pkgs.zsh}/bin/zsh";
+        font = {
+          name = "MesloLGS NF";
+          size = 12;
+        };
+        extraConfig = {
+          Scrolling = {
+            HistoryMode = 2;
+          };
+          Appearance = {
+            BoldIntense = true;
+          };
+        };
+      };
+    };
+  };
+
   # Enable ZSH in home-manager
   programs.zsh = {
     enable = true;
@@ -121,4 +146,5 @@
     extraConfig.credential."https://github.com".username = "adyshake";
     extraConfig.credential.credentialStore = "cache";
   };
+
 }
