@@ -92,6 +92,25 @@
       # Run authentication script for Amazon
       amznauth = "./amazon_login.sh";
     };
+    
+    # Oh My Zsh configuration
+    oh-my-zsh = {
+      enable = true;
+      theme = "robbyrussell";
+      plugins = [
+        "git"
+        "sudo"
+        "history"
+        "colored-man-pages"
+        "command-not-found"
+        "fzf"
+      ];
+    };
+    
+    initExtra = ''
+      # Disable oh-my-zsh git aliases to use our custom ones
+      zstyle ':omz:plugins:git' aliases no
+    '';
   };
 
   programs.git = {

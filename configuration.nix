@@ -97,11 +97,14 @@ in
     ];
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
+  # Set ZSH as default shell for all users
+  users.defaultUserShell = pkgs.zsh;
 
   # Enable ZSH system-wide
   programs.zsh.enable = true;
+
+  # Install firefox.
+  programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -109,14 +112,14 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+  wget
   vim
   git
   git-credential-manager
   vscode
   expect
   fzf
+  spawn
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
