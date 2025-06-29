@@ -1,154 +1,84 @@
 { config, pkgs, ... }:
 
-let 
-userConfig = builtins.fromTOML (builtins.readFile ./user.toml);
-in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home = {
-    username = userConfig.user;
-    homeDirectory = userConfig.home;
+  home.username = "adnan";
+  home.homeDirectory = "/home/adnan";
 
-    stateVersion = "23.11";
+  # This value determines the Home Manager release that your configuration is
+  # compatible with. This helps avoid breakage when a new Home Manager release
+  # introduces backwards incompatible changes.
+  #
+  # You should not change this value, even if you update Home Manager. If you do
+  # want to update the value, then make sure to first check the Home Manager
+  # release notes.
+  home.stateVersion = "25.05"; # Please read the comment before changing.
 
-    packages = with pkgs; [
-      stow
-      graphviz
-      # neovim
-      # rustup
-      lsd
-      fnm
-      lazygit
-      fd
-      # docker
-      # java
-      protobuf
-      fswatch
-      ripgrep
-      gh
-      glow
-      jq
-      parallel
-      bat
-      du-dust
-      zig
-      postgresql
-      go
-    ];
+  # The home.packages option allows you to install Nix packages into your
+  # environment.
+  home.packages = [
+    # # Adds the 'hello' command to your environment. It prints a friendly
+    # # "Hello, world!" when run.
+    # pkgs.hello
 
-    file = {
-    };
+    # # It is sometimes useful to fine-tune packages, for example, by applying
+    # # overrides. You can do that directly here, just don't forget the
+    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+    # # fonts?
+    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
-    sessionVariables = {
-    };
+    # # You can also create simple shell scripts directly inside your
+    # # configuration. For example, this adds a command 'my-hello' to your
+    # # environment:
+    # (pkgs.writeShellScriptBin "my-hello" ''
+    #   echo "Hello, ${config.home.username}!"
+    # '')
+    pkgs.cowsay
+  ];
+
+  # Home Manager is pretty good at managing dotfiles. The primary way to manage
+  # plain files is through 'home.file'.
+  home.file = {
+    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
+    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
+    # # symlink to the Nix store copy.
+    # ".screenrc".source = dotfiles/screenrc;
+
+    # # You can also set the file content immediately.
+    # ".gradle/gradle.properties".text = ''
+    #   org.gradle.console=verbose
+    #   org.gradle.daemon.idletimeout=3600000
+    # '';
   };
 
-  programs = {
-
-    zsh = {
-        enable = true;
-        enableAutosuggestions = true;
-        enableCompletion = true;
-        autocd = true;
-        defaultKeymap = "emacs";
-        syntaxHighlighting.enable = true;
-        history = {
-            extended = true;
-            ignoreAllDups = true;
-            share = true;
-            expireDuplicatesFirst = true;
-        };
-        historySubstringSearch = {
-            enable = true;
-        };
-        initExtra = (builtins.readFile ./.zshrc);
-    };
-
-    tmux = {
-        enable = true;
-        aggressiveResize = false;
-        mouse = true;
-        baseIndex = 1;
-        keyMode = "vi";
-        plugins = with pkgs; [
-            tmuxPlugins.sensible
-            tmuxPlugins.logging
-        ];
-        extraConfig = (builtins.readFile ./.tmux.conf);
-    };
-
-    fzf = {
-        enable = true;
-        enableZshIntegration = true;
-        fileWidgetCommand = "fd --type f";
-    };
-
-    git = {
-        enable = true;
-        delta = {
-            enable = true;
-        };
-        ignores = [
-            "out"
-        ];
-        includes = [
-        {
-            contents = {
-                push = {
-                    autoSetupRemote = true;
-                };
-                rerere = {
-                    enabled = true;
-                };
-                column.ui = "auto";
-                branch.sort = "-committerdate";
-                url = {
-                    "ssh://git.amazon.com" = {
-                    insteadOf = "https://git.amazon.com";
-                    };
-                };
-                core = {
-                    excludesfile = "~/.gitignore";
-                };
-            };
-        }
-        {
-            condition = "gitdir:~/personal/";
-            contents = {
-                user = {
-                    name = "Adnan Shaikh";
-                    email = "adnan.shaikh1806@gmail.com";
-                };
-                github = {
-                    user = "adyshake";
-                };
-                core = {
-                    sshCommand = "ssh -i ~/.ssh/github-personal";
-                };
-            };
-        }
-        {
-            condition = "gitdir:~/work/";
-            contents = {
-                user = {
-                    name = "Adnan Shaikh";
-                    email = "snadnan@amazon.com";
-                };
-            };
-        }
-        ];
-    };
-
-    neovim = {
-        enable = true;
-        defaultEditor = true;
-        viAlias = true;
-        vimAlias = true;
- extraLuaConfig = (builtins.readFile ./init.lua);
-    };
-
-    # Let Home Manager install and manage itself.
-    home-manager.enable = true;
+  # Home Manager can also manage your environment variables through
+  # 'home.sessionVariables'. These will be explicitly sourced when using a
+  # shell provided by Home Manager. If you don't want to manage your shell
+  # through Home Manager then you have to manually source 'hm-session-vars.sh'
+  # located at either
+  #
+  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  /etc/profiles/per-user/adnan/etc/profile.d/hm-session-vars.sh
+  #
+  home.sessionVariables = {
+    # EDITOR = "emacs";
   };
+
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
+
+  programs.git = {
+    enable = true;
+    userName = "Adnan Shaikh";
+    userEmail = "adnan.shaikh1806@gmail.com";
+  };
+
 }

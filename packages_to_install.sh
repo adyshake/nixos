@@ -1,2 +1,0 @@
-# Install expect
-# Install fzf
